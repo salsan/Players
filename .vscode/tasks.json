@@ -1,0 +1,44 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "PHPUnit",
+            "type": "shell",
+            "windows": {
+                "command": ".\\vendor\\bin\\phpunit",
+              },      
+            "group": "test",
+            "presentation": {
+                "reveal": "always",
+                "panel": "new"
+            },
+            "problemMatcher": []
+        }
+        {
+            "label": "PHP Code Sniffer",
+            "type": "shell",
+            "windows":{
+                "command": ".\\vendor\\bin\\phpcs.bat",
+                "args": ["--standard=PSR12",  "${file}"]
+            },    
+            "presentation": {
+                "reveal": "always",
+                "panel": "new"
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "PHP Code Beautifier",
+            "type": "shell",
+            "windows": {
+                "command": ".\\vendor\\bin\\phpcbf.bat",
+                "args": ["--standard=PSR12",  "${file}"]
+            },        
+            "presentation": {
+                "reveal": "always",
+                "panel": "new"
+            },
+            "problemMatcher": []
+        }
+    ]
+}
