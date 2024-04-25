@@ -43,9 +43,9 @@ final class FormTest extends TestCase
 
     public function testGetSex($form): void
     {
-        $sex = $form->getSex();
-        $this->assertIsArray($sex);
-        $this->assertGreaterThanOrEqual(2, count($sex));
+        $gender = $form->getGender();
+        $this->assertIsArray($gender);
+        $this->assertGreaterThanOrEqual(2, count($gender));
     }
 
     /**
