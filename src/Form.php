@@ -31,7 +31,7 @@ class Form
         return ($this->getArray("'cat2'", $this->dom));
     }
 
-    public function getSex(): array
+    public function getGender(): array
     {
         return ($this->getArray("'sess'", $this->dom));
     }
