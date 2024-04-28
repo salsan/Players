@@ -42,4 +42,13 @@ final class ProfileTest extends TestCase
         $this->assertGreaterThanOrEqual('1656', $player["stats"]["best"]["elo"]);
         $this->assertLessThanOrEqual('1419', $player["stats"]["worst"]["elo"]);
     }
+
+    /**
+     * @depends testInit
+     */
+    public function testGetNumberTournaments($profile): void
+    {
+        $total = $profile->getNumberTournaments();
+        $this->assertLessThanOrEqual(19, $total);
+    }
 }
