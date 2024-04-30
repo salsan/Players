@@ -87,4 +87,16 @@ final class ProfileTest extends TestCase
         $this->assertStringContainsString('2', $tournaments["2403032D"]["gamesWhite"]);
         $this->assertStringContainsString('3', $tournaments["2403032D"]["gamesBlack"]);
     }
+
+    /**
+     * @depends testInit
+     */
+
+     public function testgetMonths($profile): void
+     {
+
+        $months = $profile->getMonths();
+        $this->assertGreaterThanOrEqual('112', $months);
+
+     }
 }
