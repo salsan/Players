@@ -121,8 +121,8 @@ class Profile
         $stats = [];
         $xpath = new DOMXPath($this->dom);
         $xpath_stats = "//table[preceding-sibling::table" .
-            "//center[contains(text(), 'Dati di base')]][1]" .
-            "//table[2]//tr[2]/td[3]/span";
+                    "//center[contains(text(), 'Dati di base')]][1]" .
+                    "//table[2]//tr[2]/td[3]/span";
 
         $getValue = $this->replaceWithStandardSpace(
             $this->getNodeValue($xpath, $xpath_stats)
@@ -299,7 +299,6 @@ class Profile
         return $tournaments;
     }
 
-    // TODO: Need to complete
     public function getNumberTournaments(): int
     {
         $xpath = new DOMXPath($this->dom);
@@ -314,5 +313,20 @@ class Profile
         $total = (int) $matches[0];
 
         return $total;
+    }
+
+    public function getMonths(): int
+    {
+        $xpath = new DOMXPath($this->dom);
+
+        $xpath_months = "//b[contains(text(), 'Storia Elo')]" .
+                        "//following::table[1]" .
+                        "//tr[not(td/a[contains(text(), 'Anno')])]";
+
+        $months = $xpath->query($xpath_months);
+
+        $months_count = $months->length - 1 ;
+
+        return (int) $months_count;
     }
 }
