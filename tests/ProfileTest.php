@@ -99,4 +99,16 @@ final class ProfileTest extends TestCase
         $this->assertGreaterThanOrEqual('112', $months);
 
      }
+
+    /**
+     * @depends testInit
+     */
+    public function testgetElo($profile): void
+    {
+        $elo = $profile->getElo();
+        $this->assertStringContainsString('',  $elo["2024"]["4"]["eloNational"]);
+        $this->assertStringContainsString('1643', $elo["2024"]["4"]["eloFide"]);
+        $this->assertStringContainsString('27', $elo["2018"]["4"]["eloNationalChange"]);
+        $this->assertStringContainsString('229', $elo["2024"]["3"]["eloFideChange"]);
+    }
 }
