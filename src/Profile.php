@@ -329,4 +329,53 @@ class Profile
 
         return (int) $months_count;
     }
+
+    public function getElo(): array
+    {
+        $xpath = new DOMXPath($this->dom);
+        $xpath_elo = "//b[contains(text(), 'Storia Elo')]//following::table[1]";
+
+        $months_count = $this->getMonths();
+
+        $row = 1;
+        $elo = [];
+
+        for ($i = 0; $months_count > $i; $i++) {
+            $row = $row + 1;
+
+            $xpath_row = $xpath_elo . "//tr[" . $row . "]";
+
+            $year = $this->getNodeValue(
+                $xpath,
+                $xpath_row .  "/td[1]/span"
+            );
+
+            $months = $this->getNodeValue(
+                $xpath,
+                $xpath_row . "/td[2]/span"
+            );
+
+            $elo[$year][$months]["eloNational"] = $this->getNodeValue(
+                $xpath,
+                $xpath_row . "/td[3]/span"
+            );
+
+            $elo[$year][$months]["eloNationalChange"] = $this->getNodeValue(
+                $xpath,
+                $xpath_row . "/td[4]/span"
+            );
+
+            $elo[$year][$months]["eloFide"] = $this->getNodeValue(
+                $xpath,
+                $xpath_row . "/td[5]/span"
+            );
+
+            $elo[$year][$months]["eloFideChange"] = $this->getNodeValue(
+                $xpath,
+                $xpath_row . "/td[6]/span"
+            );
+        }
+
+            return $elo;
+    }
 }
