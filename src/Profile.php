@@ -20,7 +20,7 @@ class Profile
     public function __construct(string $id)
     {
         $this->dom = new DOMDocument();
-        $this->url .= $id . "&tipo=a";
+        $this->url .= $this->getURL($id) . "&tipo=a";
 
         $this->dom = $this->getHTML($this->url, null);
     }
@@ -377,5 +377,38 @@ class Profile
         }
 
             return $elo;
+    }
+
+    public function getNumbersNorms(): int
+    {
+        $xpath = new DOMXPath($this->dom);
+        $xpath_norms = "//center[contains(text(), 'Norme di Maestro conseguite')]" .
+                "//following::table[1]//tr[td[@bgcolor]]";
+
+        $norms = $xpath->query($xpath_norms);
+
+        $months_count = $norms->length  ;
+
+        return (int) $months_count;
+    }
+
+    public function getURL($id): string
+    {
+        $dom = new DOMDocument();
+        $url = 'https://www.torneionline.com/giocatori.php?tipo=11&ifsi=' . $id;
+
+        $dom = $this->getHTML($url, null);
+
+        $xpath = new DOMXPath($dom);
+
+        $getURL = $xpath->query(
+            '//table//td[8]/span/a[contains(@href, "progre")]'
+        )->item(0);
+
+        $href = $getURL->getAttribute('href');
+        $pattern = '/\d+/';
+        preg_match($pattern, $href, $profileId);
+
+        return  $profileId[0];
     }
 }
