@@ -217,15 +217,11 @@ class Query
 
     private function getID($xpath, $xpath_root): string
     {
-        $getURL = $xpath->query(
-            $xpath_root . '/td[8]//a[contains(@href, "progre")]'
-        )->item(0);
+        $id = $this->getNodeValue(
+            $xpath,
+            $xpath_root . '/td[15]'
+        );
 
-        $href = $getURL->getAttribute('href');
-
-        $pattern = '/\d+/';
-        preg_match($pattern, $href, $id);
-
-        return $id[0];
+        return $id;
     }
 }
