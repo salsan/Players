@@ -7,7 +7,7 @@ use Salsan\Players;
 
 final class ProfileTest extends TestCase
 {
-    private $id = '27715';
+    private $id = '165714';
 
     public function testInit(): object
     {
@@ -91,7 +91,6 @@ final class ProfileTest extends TestCase
     /**
      * @depends testInit
      */
-
      public function testgetMonths($profile): void
      {
 
@@ -110,5 +109,12 @@ final class ProfileTest extends TestCase
         $this->assertStringContainsString('1643', $elo["2024"]["4"]["eloFide"]);
         $this->assertStringContainsString('27', $elo["2018"]["4"]["eloNationalChange"]);
         $this->assertStringContainsString('229', $elo["2024"]["3"]["eloFideChange"]);
+    }
+
+    public function testGetNumberNorms(): void
+    {
+        $profile = new Players\Profile("101314");
+        $this->assertIsObject($profile);
+        $this->assertGreaterThanOrEqual("3", $profile->getNumbersNorms());
     }
 }

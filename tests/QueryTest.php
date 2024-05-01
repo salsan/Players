@@ -36,12 +36,12 @@ final class QueryTest extends TestCase
     public function testGetInfo($players): void
     {
         $player = $players->getList();
-        $this->assertStringContainsStringIgnoringCase("SANTAGATI SALVATORE", $player["27715"]["name"]);
-        $this->assertStringContainsStringIgnoringCase("FM", $player["27711"]["category"]);
-        $this->assertStringContainsStringIgnoringCase("0", $player["27711"]["eloNational"]);
-        $this->assertStringContainsStringIgnoringCase("1976", $player["27713"]["birthdayYear"]);
-        $this->assertStringContainsStringIgnoringCase("2832408", $player["27715"]["fideID"]);
-        $this->assertStringContainsStringIgnoringCase("M", $player["27715"]["gender"]);
+        $this->assertStringContainsStringIgnoringCase("SANTAGATI SALVATORE", $player["165714"]["name"]);
+        $this->assertStringContainsStringIgnoringCase("FM", $player["107367"]["category"]);
+        $this->assertStringContainsStringIgnoringCase("0", $player["107367"]["eloNational"]);
+        $this->assertStringContainsStringIgnoringCase("1976", $player["135912"]["birthdayYear"]);
+        $this->assertStringContainsStringIgnoringCase("2832408", $player["165714"]["fideID"]);
+        $this->assertStringContainsStringIgnoringCase("M", $player["165714"]["gender"]);
 
 
     }
