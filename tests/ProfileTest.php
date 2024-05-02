@@ -117,4 +117,11 @@ final class ProfileTest extends TestCase
         $this->assertIsObject($profile);
         $this->assertGreaterThanOrEqual("3", $profile->getNumbersNorms());
     }
+
+    public function testGetNumbersTranches(): void
+    {
+        $profile = new Players\Profile("164911");
+        $this->assertIsObject($profile);
+        $this->assertGreaterThanOrEqual("2", $profile->getNumbersTranches());
+    }
 }
