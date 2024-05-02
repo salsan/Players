@@ -387,9 +387,23 @@ class Profile
 
         $norms = $xpath->query($xpath_norms);
 
-        $months_count = $norms->length  ;
+        $months_count = $norms->length;
 
         return (int) $months_count;
+    }
+
+    public function getNumbersTranches(): int
+    {
+        $xpath = new DOMXPath($this->dom);
+
+        $xpath_tranches = "//center[contains(text(), 'Tranche conseguite')]" .
+                        "//following::table[1]//tr[td[10] and td[@bgcolor]]";
+
+        $tranches = $xpath->query($xpath_tranches);
+
+        $tranches_count = $tranches->length;
+
+        return (int) $tranches_count;
     }
 
     public function getURL($id): string
