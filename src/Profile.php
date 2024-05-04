@@ -581,4 +581,18 @@ class Profile
 
         return  $profileId[0];
     }
+
+    public function getName(): string
+    {
+        $xpath_name = "//span[@class='tpolcorpobigbig']/b/text()";
+        $xpath = new DOMXPath($this->dom);
+
+
+        $name = $this->getNodeValue(
+            $xpath,
+            $xpath_name
+        );
+
+        return $name;
+    }
 }
