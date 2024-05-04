@@ -135,8 +135,8 @@ final class ProfileTest extends TestCase
         $this->assertStringContainsString('0', $norms["1309002A"]["eloVariation"]);
         $this->assertStringContainsString('2248', $norms["1309002A"]["averageOpponent"]);
         $this->assertStringContainsString('9', $norms["1309002A"]["numberOfMatch"]);
-        $this->assertStringContainsString('5', $norms["1309002A"]["Points"]);
-        $this->assertStringContainsString('5', $norms["1309002A"]["PointsRequired"]);
+        $this->assertStringContainsString('5', $norms["1309002A"]["points"]);
+        $this->assertStringContainsString('5', $norms["1309002A"]["pointsRequired"]);
     }
 
     public function testGetNumbersTranches(): object
