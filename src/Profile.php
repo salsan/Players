@@ -379,6 +379,162 @@ class Profile
             return $elo;
     }
 
+    public function getTournamentsTranches(): array
+    {
+        $tranche = [];
+        $xpath = new DOMXPath($this->dom);
+
+        $xpath_tranches = "//center[contains(text(), 'Tranche conseguite')]" .
+        "//following::table[1]//tr[td[10] and td[@bgcolor]]";
+
+        $row = 0;
+
+        $number_tranches = $this->getNumbersTranches();
+
+        for ($i = 0; $number_tranches > $i; $i++) {
+            $row = $row + 1;
+
+            $xpath_tranches = "//center[contains(text(), 'Tranche conseguite')]" .
+            "//following::table[1]//tr[td[10] and td[@bgcolor]][" . $row . "]";
+
+            $id = $this->getNodeValue(
+                $xpath,
+                $xpath_tranches . "/td[1]/span"
+            );
+
+            $tranche[$id]["name"] = mb_convert_encoding(
+                $this->getNodeValue(
+                    $xpath,
+                    $xpath_tranches . "/td[2]/span"
+                ),
+                'ISO-8859-1',
+                'UTF-8'
+            );
+
+            $tranche[$id]["province"] = $this->getNodeValue(
+                $xpath,
+                $xpath_tranches . "/td[3]/span"
+            );
+
+            $tranche[$id]["startData"] = $this->getNodeValue(
+                $xpath,
+                $xpath_tranches . "/td[4]/span"
+            );
+
+            $tranche[$id]["endData"] = $this->getNodeValue(
+                $xpath,
+                $xpath_tranches . "/td[5]/span"
+            );
+
+            $tranche[$id]["eloVariation"] = $this->getNodeValue(
+                $xpath,
+                $xpath_tranches . "/td[6]/span"
+            );
+
+            $tranche[$id]["averageOpponent"] = $this->getNodeValue(
+                $xpath,
+                $xpath_tranches . "/td[7]/span"
+            );
+
+            $tranche[$id]["numberOfMatchFide"] = $this->getNodeValue(
+                $xpath,
+                $xpath_tranches . "/td[8]/span"
+            );
+
+            $tranche[$id]["fidePoint"] = $this->getNodeValue(
+                $xpath,
+                $xpath_tranches . "/td[9]/span"
+            );
+
+            $tranche[$id]["trancheValue"] = $this->getNodeValue(
+                $xpath,
+                $xpath_tranches . "/td[10]/span"
+            );
+        }
+
+        return $tranche;
+    }
+
+    public function getTournamentsNorms(): array
+    {
+        $norms = [];
+        $xpath = new DOMXPath($this->dom);
+
+        $xpath_norms = "//center[contains(text(), 'Norme di Maestro conseguite')]" .
+        "//following::table[1]//tr[td[@bgcolor]]";
+
+        $row = 0;
+
+        $number_norms = $this->getNumbersNorms();
+
+        for ($i = 0; $number_norms > $i; $i++) {
+            $row = $row + 1;
+
+            $xpath_norms = "//center[contains(text(), 'Norme di Maestro conseguite')]" .
+            "//following::table[1]//tr[td[@bgcolor]][" . $row . "]";
+
+            $id = $this->getNodeValue(
+                $xpath,
+                $xpath_norms . "/td[1]/span"
+            );
+
+            $norms[$id]["name"] = mb_convert_encoding(
+                $this->getNodeValue(
+                    $xpath,
+                    $xpath_norms . "/td[2]/span"
+                ),
+                'ISO-8859-1',
+                'UTF-8'
+            );
+
+            $norms[$id]["province"] = $this->getNodeValue(
+                $xpath,
+                $xpath_norms . "/td[3]/span"
+            );
+
+            $norms[$id]["startData"] = $this->getNodeValue(
+                $xpath,
+                $xpath_norms . "/td[4]/span"
+            );
+
+            $norms[$id]["endData"] = $this->getNodeValue(
+                $xpath,
+                $xpath_norms . "/td[5]/span"
+            );
+
+            $norms[$id]["eloVariation"] = $this->getNodeValue(
+                $xpath,
+                $xpath_norms . "/td[6]/span"
+            );
+
+            $norms[$id]["averageOpponent"] = $this->getNodeValue(
+                $xpath,
+                $xpath_norms . "/td[7]/span"
+            );
+
+            $norms[$id]["numberOfMatch"] = $this->getNodeValue(
+                $xpath,
+                $xpath_norms . "/td[8]/span"
+            );
+
+            $norms[$id]["numberOfMatchPlayed"] = $this->getNodeValue(
+                $xpath,
+                $xpath_norms . "/td[9]/span"
+            );
+
+            $norms[$id]["Points"] = $this->getNodeValue(
+                $xpath,
+                $xpath_norms . "/td[10]/span"
+            );
+
+            $norms[$id]["PointsRequired"] = $this->getNodeValue(
+                $xpath,
+                $xpath_norms . "/td[11]/span"
+            );
+        }
+        return $norms;
+    }
+
     public function getNumbersNorms(): int
     {
         $xpath = new DOMXPath($this->dom);
@@ -415,13 +571,13 @@ class Profile
 
         $xpath = new DOMXPath($dom);
 
-        $getURL = $xpath->query(
-            '//table//td[8]/span/a[contains(@href, "progre")]'
-        )->item(0);
+        $getURL = $this->getNodeValue(
+            $xpath,
+            '//table//td[8]/span/a/@href'
+        );
 
-        $href = $getURL->getAttribute('href');
         $pattern = '/\d+/';
-        preg_match($pattern, $href, $profileId);
+        preg_match($pattern, $getURL, $profileId);
 
         return  $profileId[0];
     }
