@@ -20,7 +20,7 @@ class Profile
     public function __construct(string $id)
     {
         $this->dom = new DOMDocument();
-        $this->url .= $this->getURL($id) . "&tipo=a";
+        $this->url .= $this->getIdFromUrl($id) . "&tipo=a";
 
         $this->dom = $this->getHTML($this->url, null);
     }
@@ -562,7 +562,7 @@ class Profile
         return (int) $tranches_count;
     }
 
-    public function getURL($id): string
+    public function getIdFromUrl($id): string
     {
         $dom = new DOMDocument();
         $url = 'https://www.torneionline.com/giocatori.php?tipo=11&ifsi=' . $id;
