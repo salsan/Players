@@ -164,5 +164,14 @@ final class ProfileTest extends TestCase
         $this->assertStringContainsString('49° CIS SERIE PROMOZIONE SICILIA OPEN', $tranches["1704048D"]["name"]);
     }
 
+    /**
+     * @depends testInit
+     */
+    public function testgetName($profile): void
+    {
+        $name = $profile->getName();
+        $this->assertIsString($name);
+        $this->assertStringContainsString('SANTAGATI', $name);
+    }
 
 }
