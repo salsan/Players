@@ -22,6 +22,8 @@ final class ProfileTest extends TestCase
     public function testProfile($profile): void
     {
         $player = $profile->getProfile();
+        $this->assertIsArray($player);
+        $this->assertEmpty($player["photo"]);
         $this->assertNotTrue($player["tranche"]);
         $this->assertNotTrue($player["norm"]);
         $this->assertStringContainsStringIgnoringCase('SANTAGATI', $player["name"]);
@@ -172,6 +174,20 @@ final class ProfileTest extends TestCase
         $name = $profile->getName();
         $this->assertIsString($name);
         $this->assertStringContainsString('SANTAGATI', $name);
+    }
+
+
+    public function testProfilePicture(): void
+    {
+        $id = '129107';
+        $profile = new Players\Profile($id);
+        $this->assertIsObject($profile);
+
+        $player = $profile->getProfile();
+
+        $this->assertIsArray($player);
+        $this->assertStringContainsString( $id , $player["photo"]);
+
     }
 
 }
