@@ -31,6 +31,11 @@ class Profile
         $xpath = new DOMXPath($this->dom);
         $xpath_profile = "//table[preceding-sibling::table//center[contains(text(), 'Dati di base')]][1]//table//tr[3]";
 
+        $profile["photo"] = $this->getNodeValue(
+            $xpath,
+            "//td/a/img[@alt='Modifica o cancella la foto di questo giocatore']/@src"
+        );
+
         $profile["tranche"] = (bool) $this->getNodeValue(
             $xpath,
             $xpath_profile . "/td[5]//@alt"
@@ -132,12 +137,12 @@ class Profile
 
         $stats =  [
             'best' => [
-                'elo' => $matches[1][0],
-                'date' => $matches[2][0]
+                'elo' => $matches[1][0] ?? 0,
+                'date' => $matches[2][0] ?? ''
             ],
             'worst' => [
-                'elo' => $matches[1][1],
-                'date' => $matches[2][1]
+                'elo' => $matches[1][1] ?? 0,
+                'date' => $matches[2][1] ?? ''
             ]
         ];
 
