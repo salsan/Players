@@ -111,17 +111,58 @@ final class ProfileTest extends TestCase
         $this->assertStringContainsString('229', $elo["2024"]["3"]["eloFideChange"]);
     }
 
-    public function testGetNumberNorms(): void
+    public function testGetNumberNorms(): object
     {
-        $profile = new Players\Profile("101314");
-        $this->assertIsObject($profile);
-        $this->assertGreaterThanOrEqual("3", $profile->getNumbersNorms());
+        $norms = new Players\Profile("101314");
+        $this->assertIsObject($norms);
+        $this->assertGreaterThanOrEqual("3", $norms->getNumbersNorms());
+
+        return $norms;
     }
 
-    public function testGetNumbersTranches(): void
+    /**
+     * @depends testGetNumberNorms
+     */
+    public function testGetTournamentsNorms($norms): void
     {
-        $profile = new Players\Profile("164911");
-        $this->assertIsObject($profile);
-        $this->assertGreaterThanOrEqual("2", $profile->getNumbersTranches());
+        $norms= $norms->getTournamentsNorms();
+        $this->assertIsArray($norms);
+        $this->assertStringContainsString('IM', $norms["1309002A"]["province"]);
+        $this->assertStringContainsString('01-09-2013', $norms["1309002A"]["startData"]);
+        $this->assertStringContainsString('07-09-2013', $norms["1309002A"]["endData"]);
+        $this->assertStringContainsString('0', $norms["1309002A"]["eloVariation"]);
+        $this->assertStringContainsString('2248', $norms["1309002A"]["averageOpponent"]);
+        $this->assertStringContainsString('9', $norms["1309002A"]["numberOfMatch"]);
+        $this->assertStringContainsString('5', $norms["1309002A"]["Points"]);
+        $this->assertStringContainsString('5', $norms["1309002A"]["PointsRequired"]);
     }
+
+    public function testGetNumbersTranches(): object
+    {
+        $tournaments = new Players\Profile("164911");
+        $this->assertIsObject($tournaments);
+        $this->assertGreaterThanOrEqual("2", $tournaments->getNumbersTranches());
+
+        return $tournaments;
+    }
+
+    /**
+     * @depends testGetNumbersTranches
+     */
+    public function testgetTournamentsTranches($tournaments): void
+    {
+        $tranches= $tournaments->getTournamentsTranches();
+        $this->assertIsArray($tranches);
+        $this->assertStringContainsString('CT', $tranches["1903049A"]["province"]);
+        $this->assertStringContainsString('15-03-2019', $tranches["1903049A"]["startData"]);
+        $this->assertStringContainsString('17-03-2019', $tranches["1903049A"]["endData"]);
+        $this->assertStringContainsString('-6', $tranches["1903049A"]["eloVariation"]);
+        $this->assertStringContainsString('1357', $tranches["1903049A"]["averageOpponent"]);
+        $this->assertStringContainsString('2', $tranches["1903049A"]["numberOfMatchFide"]);
+        $this->assertStringContainsString('1.00', $tranches["1903049A"]["fidePoint"]);
+        $this->assertStringContainsString('757', $tranches["1704048D"]["trancheValue"]);
+        $this->assertStringContainsString('49° CIS SERIE PROMOZIONE SICILIA OPEN', $tranches["1704048D"]["name"]);
+    }
+
+
 }
