@@ -21,75 +21,9 @@ class Query
     {
         $this->dom = new DOMDocument();
 
-        // Players Parameters
-        $name = $params['name'] ?? '';
-        $categoryMin = $params['cat1'] ?? '';
-        $categoryMax = $params['cat2'] ?? '';
-        $eloNationalMin = $params['eli1'] ?? '';
-        $eloNationalMax = $params['eli2'] ?? '';
-        $eloFIDEMin = $params['elf1'] ?? '';
-        $eloFIDEMax = $params['elf2'] ?? '';
-        $eloOnlineBullet = $params['are1'] ?? '';
-        $eloOnlineBlitz = $params['are2'] ?? '';
-        $eloOnlineStandard = $params['are3'] ?? '';
-        $birthdayFrom = $params['ann1'] ?? '';
-        $birthdayTo = $params['ann2'] ?? '';
-        $gender = $params['sess'] ?? '';
-        $isTournmentPlayed = $params['ptor'] ?? '';
-        $isTrancheFIDE = $params['ptra'] ?? '';
-        $isNationalNorm = $params['pmas'] ?? '';
-        $lastTournamentPlayedFrom = $params['ult1'] ?? '';
-        $lastTournamentPlayedTo = $params['ult2'] ?? '';
-        $provinceFirst = $params['pro1'] ?? '';
-        $provinceSecond = $params['pro2'] ?? '';
-        $provinceThird = $params['pro3'] ?? '';
-        $regionFirst = $params['reg1'] ?? '';
-        $regionSecond = $params['reg2'] ?? '';
-        $regionThird = $params['reg3'] ?? '';
-        $nationalID = $params['ifsi'] ?? '';
-        $fideID = $params['ifid'] ?? '';
-        $orderFirst = $params['ord1'] ?? '';
-        $orderSecond = $params['ord2'] ?? '';
-        $orderThird = $params['ord3'] ?? '';
-        $directionFirst = $params['sen1'] ?? '';
-        $directionSecond = $params['sen2'] ?? '';
-        $directionThird = $params['sen3'] ?? '';
+        $query = http_build_query($params);
 
-
-        $this->url .=
-            "?nome={$name}" .
-            "&cat1={$categoryMin}" .
-            "&cat2={$categoryMax}" .
-            "&eli1={$eloNationalMin}" .
-            "&eli2={$eloNationalMax}" .
-            "&elf1={$eloFIDEMin}" .
-            "&elf2={$eloFIDEMax}" .
-            "&are1={$eloOnlineBullet}" .
-            "&are2={$eloOnlineBlitz}" .
-            "&are3={$eloOnlineStandard}" .
-            "&ann1={$birthdayFrom}" .
-            "&ann2={$birthdayTo}" .
-            "&sess={$gender}" .
-            "&ptor={$isTournmentPlayed}" .
-            "&ptra={$isTrancheFIDE}" .
-            "&pmas={$isNationalNorm}" .
-            "&ult1={$lastTournamentPlayedFrom}" .
-            "&ult2={$lastTournamentPlayedTo}" .
-            "&pro1={$provinceFirst}" .
-            "&pro2={$provinceSecond}" .
-            "&pro3={$provinceThird}" .
-            "&reg1={$regionFirst}" .
-            "&reg2={$regionSecond}" .
-            "&reg3={$regionThird}" .
-            "&ifsi={$nationalID}" .
-            "&ifid={$fideID}" .
-            "&ord1={$orderFirst}" .
-            "&sen1={$directionFirst}" .
-            "&ord2={$orderSecond}" .
-            "&sen2={$directionSecond}" .
-            "&ord3={$orderThird}" .
-            "&sen3={$directionThird}" .
-            "&tipo=1";
+        $this->url .= '?' . $query .  '&tipo=1';
 
         $this->dom = $this->getHTML($this->url, null);
     }
