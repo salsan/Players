@@ -8,7 +8,7 @@ use Salsan\Players;
 final class QueryTest extends TestCase
 {
     private $paramters = array(
-        'name' => 'Santagati',
+        'nome' => 'Santagati',
     );
 
     public function testInit(): object
