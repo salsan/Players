@@ -15,6 +15,7 @@ class Query
     use DOMDocumentTrait;
 
     private DOMDocument $dom;
+    private DOMXPath $xpath;
     private string $url = "https://www.torneionline.com/giocatori.php";
 
     public function __construct(array $params)
@@ -24,15 +25,15 @@ class Query
         $query = http_build_query($params);
 
         $this->url .= '?' . $query .  '&tipo=1';
-
         $this->dom = $this->getHTML($this->url, null);
+
+        $this->xpath = new DOMXPath($this->dom);
     }
 
     public function getNumber(): int
     {
-        $xpath = new DOMXPath($this->dom);
         $total = $this->getNodeValue(
-            $xpath,
+            $this->xpath,
             '//span[@class="tpolcorpobigbig"]/b'
         );
 
@@ -41,7 +42,6 @@ class Query
 
     public function getList(): iterable
     {
-        $xpath = new DOMXPath($this->dom);
         $players_total = $this->getNumber();
 
         $players = [];
@@ -52,110 +52,46 @@ class Query
 
             $xpath_player = '//center[2]/table//table/tr[' . $row . ']';
 
-            $id = $this->getID($xpath, $xpath_player);
+            $id = $this->getID($xpath_player);
 
-            // National Norm Status
-            $players[$id]['norm'] = (bool) $this->getNodeValue(
-                $xpath,
-                $xpath_player . '/td[5]//@alt'
-            );
-            // Tranche ( bool )
-            $players[$id]['tranche'] = (bool) $this->getNodeValue(
-                $xpath,
-                $xpath_player . '/td[6]//@alt'
-            );
-
-            // Player Name
-            $players[$id]['name'] = $this->getNodeValue(
-                $xpath,
-                $xpath_player . '/td[8]//a'
-            );
-            // Category
-            $players[$id]['category'] = $this->getNodeValue(
-                $xpath,
-                $xpath_player . '/td[9]/span'
-            );
-
-            // ELO Italy
-            $players[$id]['eloNational'] = $this->getNodeValue(
-                $xpath,
-                $xpath_player . '/td[10]'
-            );
-            // ELO FIDE
-            $players[$id]['eloFIDE'] = $this->getNodeValue(
-                $xpath,
-                $xpath_player . '/td[11]'
-            );
-
-            // Arena Online Bullet
-            $players[$id]['eloOnlineBullet'] = $this->getNodeValue(
-                $xpath,
-                $xpath_player . '/td[12]'
-            );
-            // Arena Online Blitz
-            $players[$id]['eloOnlineBlitz'] = $this->getNodeValue(
-                $xpath,
-                $xpath_player . '/td[13]'
-            );
-            // Arena Online Standard
-            $players[$id]['eloOnlineStandard'] = $this->getNodeValue(
-                $xpath,
-                $xpath_player . '/td[14]'
-            );
-
-            // FSI ID
-            $players[$id]['nationalID'] = $this->getNodeValue(
-                $xpath,
-                $xpath_player . '/td[15]'
-            );
-
-            // FIDE ID
-            $players[$id]['fideID'] = $this->getNodeValue(
-                $xpath,
-                $xpath_player . '/td[16]'
-            );
-
-            // Last Tournament
-            $players[$id]['lastTournament'] = $this->getNodeValue(
-                $xpath,
-                $xpath_player . '/td[17]'
-            );
-
-            // Birthday Year
-            $players[$id]['birthdayYear'] = $this->getNodeValue(
-                $xpath,
-                $xpath_player . '/td[18]'
-            );
-
-            // Province
-            $players[$id]['province'] = $this->getNodeValue(
-                $xpath,
-                $xpath_player . '/td[19]'
-            );
-
-            // Region
-            $players[$id]['region'] = $this->getNodeValue(
-                $xpath,
-                $xpath_player . '/td[20]'
-            );
-
-            // gender
-            $players[$id]['gender'] = $this->getNodeValue(
-                $xpath,
-                $xpath_player . '/td[21]'
-            );
+            $players[$id] = [
+                'norm' => (bool) $this->getNodeText($xpath_player . '/td[5]//@alt'),
+                'tranche' => (bool) $this->getNodeText($xpath_player . '/td[6]//@alt'),
+                'name' => $this->getNodeText($xpath_player . '/td[8]//a'),
+                'category' => $this->getNodeText($xpath_player . '/td[9]/span'),
+                'eloNational' => $this->getNodeText($xpath_player . '/td[10]'),
+                'eloFIDE' => $this->getNodeText($xpath_player . '/td[11]'),
+                'eloOnlineBullet' => $this->getNodeText($xpath_player . '/td[12]'),
+                'eloOnlineBlitz' => $this->getNodeText($xpath_player . '/td[13]'),
+                'eloOnlineStandard' => $this->getNodeText($xpath_player . '/td[14]'),
+                'nationalID' => $this->getNodeText($xpath_player . '/td[15]'),
+                'fideID' => $this->getNodeText($xpath_player . '/td[16]'),
+                'lastTournament' => $this->getNodeText($xpath_player . '/td[17]'),
+                'birthdayYear' => $this->getNodeText($xpath_player . '/td[18]'),
+                'province' => $this->getNodeText($xpath_player . '/td[19]'),
+                'region' => $this->getNodeText($xpath_player . '/td[20]'),
+                'gender' => $this->getNodeText($xpath_player . '/td[21]'),
+            ];
         }
 
         return $players;
     }
 
-    private function getID($xpath, $xpath_root): string
+    private function getID($xpath_root): string
     {
-        $id = $this->getNodeValue(
-            $xpath,
-            $xpath_root . '/td[15]'
-        );
+
+        $id = $this->getNodeText($xpath_root . '/td[15]');
 
         return $id;
+    }
+
+    private function getNodeText($node): string
+    {
+        $data = $this->getNodeValue(
+            $this->xpath,
+            $node
+        );
+
+        return $data;
     }
 }
