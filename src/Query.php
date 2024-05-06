@@ -32,10 +32,7 @@ class Query
 
     public function getNumber(): int
     {
-        $total = $this->getNodeValue(
-            $this->xpath,
-            '//span[@class="tpolcorpobigbig"]/b'
-        );
+        $total = $this->getNodeText('//span[@class="tpolcorpobigbig"]/b');
 
         return (int) $total;
     }
