@@ -89,8 +89,6 @@ class Profile
     {
         $tournaments = [];
 
-        $xpath_tournaments = "//center[2]/table//table[6]//tr[3]";
-
         $row = 1;
         $totalTournaments = $this->getNumberTournaments();
 
@@ -194,9 +192,6 @@ class Profile
     {
         $tranche = [];
 
-        $xpath_tranches = "//center[contains(text(), 'Tranche conseguite')]" .
-        "//following::table[1]//tr[td[10] and td[@bgcolor]]";
-
         $row = 0;
 
         $number_tranches = $this->getNumbersTranches();
@@ -228,9 +223,6 @@ class Profile
     public function getTournamentsNorms(): array
     {
         $norms = [];
-
-        $xpath_norms = "//center[contains(text(), 'Norme di Maestro conseguite')]" .
-        "//following::table[1]//tr[td[@bgcolor]]";
 
         $row = 0;
 
