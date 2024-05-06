@@ -190,4 +190,14 @@ final class ProfileTest extends TestCase
 
     }
 
+     /**
+     * @depends testInit
+     */
+    public function testGraphUrl($profile): void
+    {
+        $graphs = $profile->getGraphUrl();
+
+        $this->assertIsString($graphs);
+        $this->assertStringContainsString("giocatori_graph", $graphs);
+    }
 }
