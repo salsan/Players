@@ -316,4 +316,13 @@ class Profile
 
         return $data;
     }
+
+    public function getGraphUrl(): string
+    {
+        $getURL = $this->getNodeText(
+            '//center[2]/table//table[4]//table//center//img/@src'
+        );
+
+        return $getURL;
+    }
 }
